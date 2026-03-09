@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underwater Discovery — ADHD App Direction 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0B1D3A;
+    --mid: #1A6B7C;
+    --cyan: #00E5CC;
+    --magenta: #E84FAD;
+    --gold: #FFD166;
+    --text: #E8F0F2;
+  }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    max-width: 390px;
+    margin: 0 auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .ocean {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(180deg,
+      #1A3A5C 0%,
+      #0F2D4A 15%,
+      #0B1D3A 35%,
+      #071428 60%,
+      #040E1E 100%
+    );
+    padding-bottom: 120px;
+  }
+
+  /* === FLOATING PARTICLES === */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: float-up linear infinite;
+    opacity: 0.4;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: var(--p-opacity, 0.4); }
+    90% { opacity: var(--p-opacity, 0.4); }
+    100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+  }
+
+  /* === SURFACE ZONE === */
+  .zone-surface {
+    position: relative;
+    padding: 40px 20px 30px;
+  }
+  .light-rays {
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 120px;
+    background: linear-gradient(180deg, rgba(0,229,204,0.08) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .zone-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+  .zone-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  /* Quick check-in bubbles */
+  .bubble-cluster {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .check-bubble {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: rgba(0, 229, 204, 0.08);
+    border: 1.5px solid rgba(0, 229, 204, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 15px rgba(0, 229, 204, 0.08);
+  }
+  .check-bubble:hover {
+    background: rgba(0, 229, 204, 0.15);
+    box-shadow: 0 0 25px rgba(0, 229, 204, 0.2);
+    transform: scale(1.08);
+  }
+  .check-bubble .emoji { font-size: 22px; }
+  .check-bubble .label { font-size: 9px; opacity: 0.7; font-weight: 500; }
+
+  /* === MOOD REEF ZONE === */
+  .zone-reef {
+    position: relative;
+    padding: 30px 20px;
+    margin-top: 10px;
+  }
+
+  .reef-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 8px;
+    height: 120px;
+    position: relative;
+    padding: 0 10px;
+  }
+  .coral {
+    position: relative;
+    border-radius: 50% 50% 10% 10%;
+    animation: coral-sway 4s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes coral-sway {
+    0%, 100% { transform: rotate(-1deg); }
+    50% { transform: rotate(1deg); }
+  }
+  .coral-1 {
+    width: 35px; height: 80px;
+    background: linear-gradient(180deg, var(--cyan), #0A8B7C);
+    border-radius: 40% 40% 8% 8%;
+    animation-delay: 0s;
+  }
+  .coral-2 {
+    width: 28px; height: 60px;
+    background: linear-gradient(180deg, var(--magenta), #A03478);
+    border-radius: 50% 50% 5% 5%;
+    animation-delay: -1s;
+  }
+  .coral-3 {
+    width: 40px; height: 95px;
+    background: linear-gradient(180deg, var(--gold), #C4A030);
+    border-radius: 35% 45% 10% 10%;
+    animation-delay: -2s;
+  }
+  .coral-4 {
+    width: 30px; height: 50px;
+    background: linear-gradient(180deg, var(--cyan), #0A8B7C);
+    border-radius: 50% 50% 8% 8%;
+    animation-delay: -0.5s;
+  }
+  .coral-5 {
+    width: 25px; height: 70px;
+    background: linear-gradient(180deg, var(--magenta), #A03478);
+    border-radius: 45% 45% 5% 5%;
+    animation-delay: -1.5s;
+  }
+  .coral-6 {
+    width: 32px; height: 55px;
+    background: linear-gradient(180deg, var(--gold), #C4A030);
+    border-radius: 50% 50% 8% 8%;
+    animation-delay: -2.5s;
+  }
+  .coral-7 {
+    width: 22px; height: 45px;
+    background: linear-gradient(180deg, var(--cyan), #0A8B7C);
+    border-radius: 50% 50% 5% 5%;
+    animation-delay: -3s;
+  }
+  .coral-glow {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 30%;
+    border-radius: inherit;
+    filter: blur(8px);
+    opacity: 0.3;
+  }
+  .coral-1 .coral-glow { background: var(--cyan); }
+  .coral-2 .coral-glow { background: var(--magenta); }
+  .coral-3 .coral-glow { background: var(--gold); }
+
+  /* === JELLYFISH === */
+  .jellyfish {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    animation: jelly-float 6s ease-in-out infinite;
+    opacity: 0.7;
+  }
+  @keyframes jelly-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  .jelly-dome {
+    width: 44px; height: 28px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(232,79,173,0.5), rgba(232,79,173,0.15));
+    border-radius: 50% 50% 20% 20%;
+    position: relative;
+    border: 1px solid rgba(232,79,173,0.3);
+  }
+  .jelly-tentacles {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding-top: 2px;
+  }
+  .tentacle {
+    width: 2px;
+    background: linear-gradient(180deg, rgba(232,79,173,0.4), transparent);
+    border-radius: 1px;
+    animation: tentacle-wave 3s ease-in-out infinite;
+  }
+  .tentacle:nth-child(1) { height: 22px; animation-delay: 0s; }
+  .tentacle:nth-child(2) { height: 30px; animation-delay: -0.5s; }
+  .tentacle:nth-child(3) { height: 26px; animation-delay: -1s; }
+  .tentacle:nth-child(4) { height: 32px; animation-delay: -1.5s; }
+  .tentacle:nth-child(5) { height: 20px; animation-delay: -2s; }
+  @keyframes tentacle-wave {
+    0%, 100% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+  }
+
+  /* === DEEP FOCUS ZONE === */
+  .zone-deep {
+    position: relative;
+    padding: 30px 20px;
+    margin-top: 10px;
+  }
+  .angler-light {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 20px 8px rgba(255,209,102,0.4);
+    margin: 0 auto 10px;
+    animation: angler-pulse 2s ease-in-out infinite;
+  }
+  @keyframes angler-pulse {
+    0%, 100% { box-shadow: 0 0 20px 8px rgba(255,209,102,0.3); transform: scale(1); }
+    50% { box-shadow: 0 0 30px 15px rgba(255,209,102,0.5); transform: scale(1.1); }
+  }
+  .deep-card {
+    background: rgba(255,209,102,0.06);
+    border: 1px solid rgba(255,209,102,0.15);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+  }
+  .deep-card h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--gold);
+  }
+  .deep-timer {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: 0.9;
+    margin: 10px 0;
+  }
+  .deep-start {
+    background: rgba(255,209,102,0.15);
+    border: 1px solid rgba(255,209,102,0.3);
+    color: var(--gold);
+    border-radius: 20px;
+    padding: 8px 24px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .deep-start:hover {
+    background: rgba(255,209,102,0.25);
+  }
+
+  /* === VOICE ORB === */
+  .voice-orb-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+  }
+  .voice-orb {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #00FFE0, #00B8A3 50%, #007766);
+    box-shadow: 0 0 30px 10px rgba(0,229,204,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    cursor: pointer;
+    animation: orb-breathe 4s ease-in-out infinite;
+    position: relative;
+    border: none;
+  }
+  .voice-orb::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,229,204,0.2);
+    animation: orb-ring 4s ease-in-out infinite;
+  }
+  @keyframes orb-breathe {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 30px 10px rgba(0,229,204,0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 0 40px 15px rgba(0,229,204,0.35); }
+  }
+  @keyframes orb-ring {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.12); opacity: 0.2; }
+  }
+
+  /* === EMOTION CHECK-IN === */
+  .emotion-checkin {
+    padding: 20px;
+    margin-top: 10px;
+  }
+  .emotion-checkin h3 {
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+  .emotion-bubbles {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .emotion-bub {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    border: none;
+    color: var(--text);
+  }
+  .emotion-bub::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .emotion-bub:hover::after {
+    opacity: 1;
+    transform: scale(1.4);
+    border: 1px solid currentColor;
+  }
+  .emotion-bub:hover {
+    transform: scale(1.15);
+  }
+  .emotion-bub.selected {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px 5px currentColor;
+  }
+
+  .emo-calm {
+    background: rgba(0,229,204,0.15);
+    box-shadow: 0 0 12px rgba(0,229,204,0.2);
+    color: var(--cyan);
+    animation: emo-bob 3s ease-in-out infinite;
+  }
+  .emo-anxious {
+    background: rgba(232,79,173,0.15);
+    box-shadow: 0 0 12px rgba(232,79,173,0.2);
+    color: var(--magenta);
+    animation: emo-bob 2.5s ease-in-out infinite;
+    animation-delay: -0.5s;
+  }
+  .emo-happy {
+    background: rgba(255,209,102,0.15);
+    box-shadow: 0 0 12px rgba(255,209,102,0.2);
+    color: var(--gold);
+    animation: emo-bob 3.5s ease-in-out infinite;
+    animation-delay: -1s;
+  }
+  .emo-drained {
+    background: rgba(90,120,180,0.15);
+    box-shadow: 0 0 12px rgba(90,120,180,0.2);
+    color: #8AA4D4;
+    animation: emo-bob 4s ease-in-out infinite;
+    animation-delay: -1.5s;
+  }
+  .emo-wired {
+    background: rgba(255,100,100,0.15);
+    box-shadow: 0 0 12px rgba(255,100,100,0.2);
+    color: #FF8888;
+    animation: emo-bob 2.8s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+  @keyframes emo-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .emo-label {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .emotion-bub:hover .emo-label {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="ocean">
+  <!-- Particles -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ocean = document.querySelector('.ocean');
+      for (let i = 0; i < 28; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = 2 + Math.random() * 3;
+        const left = Math.random() * 100;
+        const dur = 8 + Math.random() * 10;
+        const delay = Math.random() * dur;
+        const opacity = 0.2 + Math.random() * 0.5;
+        p.style.cssText = `
+          width:${size}px; height:${size}px;
+          left:${left}%; bottom:${Math.random()*30}%;
+          --p-opacity:${opacity};
+          animation-duration:${dur}s;
+          animation-delay:-${delay}s;
+          opacity:${opacity};
+        `;
+        if (Math.random() > 0.7) p.style.background = 'var(--magenta)';
+        if (Math.random() > 0.9) p.style.background = 'var(--gold)';
+        ocean.appendChild(p);
+      }
+    });
+  </script>
+
+  <!-- Surface Zone -->
+  <div class="zone-surface">
+    <div class="light-rays"></div>
+    <div class="zone-label">~ Surface ~</div>
+    <div class="zone-title">Quick Check-in</div>
+    <div class="bubble-cluster">
+      <div class="check-bubble">
+        <span class="emoji">☀️</span>
+        <span class="label">Energy</span>
+      </div>
+      <div class="check-bubble">
+        <span class="emoji">💤</span>
+        <span class="label">Sleep</span>
+      </div>
+      <div class="check-bubble">
+        <span class="emoji">💊</span>
+        <span class="label">Meds</span>
+      </div>
+      <div class="check-bubble">
+        <span class="emoji">🏃</span>
+        <span class="label">Movement</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Voice Orb -->
+  <div class="voice-orb-wrap">
+    <button class="voice-orb">🎤</button>
+  </div>
+
+  <!-- Mood Reef -->
+  <div class="zone-reef">
+    <div class="zone-label">~ Mid-Depth ~</div>
+    <div class="zone-title" style="margin-bottom:16px;">Your Mood Reef</div>
+    <div class="reef-container">
+      <div class="coral coral-1"><div class="coral-glow"></div></div>
+      <div class="coral coral-2"><div class="coral-glow"></div></div>
+      <div class="coral coral-3"><div class="coral-glow"></div></div>
+      <div class="coral coral-4"><div class="coral-glow"></div></div>
+      <div class="coral coral-5"><div class="coral-glow"></div></div>
+      <div class="coral coral-6"><div class="coral-glow"></div></div>
+      <div class="coral coral-7"><div class="coral-glow"></div></div>
+
+      <!-- Jellyfish -->
+      <div class="jellyfish">
+        <div class="jelly-dome"></div>
+        <div class="jelly-tentacles">
+          <div class="tentacle"></div>
+          <div class="tentacle"></div>
+          <div class="tentacle"></div>
+          <div class="tentacle"></div>
+          <div class="tentacle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep Focus -->
+  <div class="zone-deep">
+    <div class="zone-label">~ The Deep ~</div>
+    <div class="angler-light"></div>
+    <div class="deep-card">
+      <h3>Deep Focus</h3>
+      <p style="font-size:13px; opacity:0.6;">Dive into concentration</p>
+      <div class="deep-timer">25:00</div>
+      <button class="deep-start">Start Session</button>
+    </div>
+  </div>
+
+  <!-- Emotion Check-in -->
+  <div class="emotion-checkin">
+    <h3>How do you feel right now?</h3>
+    <div class="emotion-bubbles">
+      <button class="emotion-bub emo-calm">
+        Calm
+        <span class="emo-label">Calm</span>
+      </button>
+      <button class="emotion-bub emo-anxious">
+        Anxious
+        <span class="emo-label">Anxious</span>
+      </button>
+      <button class="emotion-bub emo-happy selected">
+        Happy
+        <span class="emo-label">Happy</span>
+      </button>
+      <button class="emotion-bub emo-drained">
+        Drained
+        <span class="emo-label">Drained</span>
+      </button>
+      <button class="emotion-bub emo-wired">
+        Wired
+        <span class="emo-label">Wired</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

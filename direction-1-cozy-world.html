@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Illustrated World — ADHD App Direction 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Fraunces:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5EBD8;
+    --primary: #E8945A;
+    --secondary: #8BAF7C;
+    --accent: #B5A0D1;
+    --text: #5C4D3C;
+    --highlight: #F2C94C;
+  }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    max-width: 390px;
+    margin: 0 auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* === LANDSCAPE SCENE === */
+  .landscape {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #F7D6A0 0%, #F0C078 20%, #EAB86E 40%, #E8D4A8 60%);
+  }
+
+  /* Sky */
+  .sky {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(180deg, #9EC5D6 0%, #D4E8D0 40%, #F7D6A0 100%);
+  }
+
+  /* Sun */
+  .sun {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #F2C94C 40%, #F0B83800 70%);
+    box-shadow: 0 0 40px 15px rgba(242, 201, 76, 0.3);
+  }
+
+  /* Clouds */
+  .cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 50px;
+    opacity: 0.8;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .cloud-1 {
+    width: 80px; height: 28px;
+    top: 40px; left: -20px;
+    animation: drift 20s linear infinite;
+  }
+  .cloud-1::before { width: 40px; height: 40px; top: -20px; left: 15px; }
+  .cloud-1::after { width: 30px; height: 30px; top: -12px; left: 42px; }
+  .cloud-2 {
+    width: 60px; height: 22px;
+    top: 70px; left: 120px;
+    animation: drift 28s linear infinite;
+    animation-delay: -8s;
+    opacity: 0.6;
+  }
+  .cloud-2::before { width: 30px; height: 30px; top: -15px; left: 10px; }
+  .cloud-2::after { width: 24px; height: 24px; top: -10px; left: 30px; }
+  .cloud-3 {
+    width: 70px; height: 24px;
+    top: 55px; left: 260px;
+    animation: drift 24s linear infinite;
+    animation-delay: -14s;
+    opacity: 0.7;
+  }
+  .cloud-3::before { width: 36px; height: 36px; top: -18px; left: 12px; }
+  .cloud-3::after { width: 28px; height: 28px; top: -12px; left: 38px; }
+
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(420px); }
+  }
+
+  /* Hills */
+  .hills {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 280px;
+  }
+  .hill {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .hill-far {
+    width: 500px; height: 300px;
+    bottom: 40px; left: -80px;
+    background: linear-gradient(180deg, #A3C68C 0%, #8BAF7C 50%, #7A9E6C 100%);
+  }
+  .hill-mid {
+    width: 400px; height: 260px;
+    bottom: 20px; right: -100px;
+    background: linear-gradient(180deg, #98BF82 0%, #82A872 50%, #729864 100%);
+  }
+  .hill-front {
+    width: 500px; height: 220px;
+    bottom: -60px; left: -50px;
+    background: linear-gradient(180deg, #8BAF7C 0%, #7DA06E 50%, #6E9060 100%);
+  }
+
+  /* Grass tufts */
+  .grass {
+    position: absolute;
+    bottom: 100px;
+    width: 6px;
+    height: 18px;
+    background: #6E9060;
+    border-radius: 3px 3px 0 0;
+    transform-origin: bottom center;
+    animation: sway 3s ease-in-out infinite;
+  }
+  .grass:nth-child(odd) { animation-delay: -1.5s; height: 14px; }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  /* Path */
+  .path {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 200px;
+    background: linear-gradient(180deg, #D4BC8A44, #D4BC8A);
+    border-radius: 20px 20px 40px 40px;
+    clip-path: polygon(35% 0%, 65% 0%, 80% 30%, 60% 50%, 75% 70%, 55% 90%, 70% 100%, 30% 100%, 45% 90%, 25% 70%, 40% 50%, 20% 30%);
+  }
+  .path::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(180deg, transparent, transparent 12px, #C4A87044 12px, #C4A87044 14px);
+  }
+
+  /* Cottage */
+  .cottage {
+    position: absolute;
+    bottom: 170px;
+    left: 60px;
+  }
+  .cottage-body {
+    width: 60px;
+    height: 45px;
+    background: linear-gradient(135deg, #D4A574, #C4956A);
+    border-radius: 3px;
+    position: relative;
+  }
+  .cottage-roof {
+    width: 76px;
+    height: 0;
+    border-left: 38px solid transparent;
+    border-right: 38px solid transparent;
+    border-bottom: 32px solid #8B5E3C;
+    position: relative;
+    left: -8px;
+    top: 0;
+  }
+  .cottage-door {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 14px; height: 22px;
+    background: #7A4E2C;
+    border-radius: 7px 7px 0 0;
+  }
+  .cottage-window {
+    position: absolute;
+    top: 10px;
+    width: 12px; height: 12px;
+    background: #F2C94C;
+    border-radius: 2px;
+    box-shadow: 0 0 12px 4px rgba(242, 201, 76, 0.5);
+    animation: glow 3s ease-in-out infinite;
+  }
+  .cottage-window.left { left: 8px; }
+  .cottage-window.right { right: 8px; }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 12px 4px rgba(242, 201, 76, 0.4); }
+    50% { box-shadow: 0 0 20px 8px rgba(242, 201, 76, 0.7); }
+  }
+  .chimney {
+    position: absolute;
+    top: -12px; right: 10px;
+    width: 10px; height: 18px;
+    background: #8B5E3C;
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Companion creature — a round bird */
+  .companion {
+    position: absolute;
+    bottom: 115px;
+    left: 52%;
+    font-size: 32px;
+    animation: bob 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    z-index: 5;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-6px) rotate(2deg); }
+  }
+
+  /* Signpost labels */
+  .signpost {
+    position: absolute;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .signpost:active { transform: scale(0.95); }
+  .sign-label {
+    background: linear-gradient(135deg, #C4956A, #B8875E);
+    color: #F5EBD8;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 5px 14px;
+    border-radius: 4px;
+    box-shadow:
+      0 2px 4px rgba(92,77,60,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+    position: relative;
+    white-space: nowrap;
+    border: 1px solid #A07850;
+  }
+  .sign-label::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: #8B5E3C;
+    border-radius: 0 0 2px 2px;
+  }
+  .sign-sub {
+    font-family: 'Nunito', sans-serif;
+    font-size: 8px;
+    font-weight: 400;
+    opacity: 0.85;
+    display: block;
+    margin-top: 1px;
+  }
+
+  .sign-garden { top: 195px; left: 45px; }
+  .sign-observatory { top: 145px; right: 30px; }
+  .sign-marketplace { top: 260px; right: 45px; }
+  .sign-nook { top: 310px; left: 30px; }
+
+  /* Small trees */
+  .tree {
+    position: absolute;
+    z-index: 3;
+  }
+  .tree-trunk {
+    width: 8px;
+    height: 24px;
+    background: #8B6944;
+    margin: 0 auto;
+    border-radius: 2px;
+  }
+  .tree-top {
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle at 40% 40%, #9EC58C, #7DA06E);
+    border-radius: 50%;
+    margin-bottom: -6px;
+    position: relative;
+    z-index: 1;
+  }
+  .tree-1 { bottom: 175px; right: 35px; }
+  .tree-2 { bottom: 200px; right: 70px; transform: scale(0.8); }
+
+  /* ====== CHECK-IN CARD ====== */
+  .checkin-overlay {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    max-width: 390px;
+    margin: 0 auto;
+    z-index: 50;
+    pointer-events: none;
+  }
+  .checkin-card {
+    pointer-events: all;
+    background: linear-gradient(180deg, rgba(245,235,216,0.97), rgba(245,235,216,0.99));
+    backdrop-filter: blur(10px);
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px 100px;
+    box-shadow: 0 -8px 30px rgba(92,77,60,0.15);
+    position: relative;
+  }
+  .checkin-card::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 4px;
+    background: #D4BC8A;
+    border-radius: 2px;
+  }
+  .checkin-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin: 16px 0 20px;
+  }
+
+  /* Flower buds */
+  .flowers {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 8px 0;
+  }
+  .flower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .flower:active { transform: scale(0.9); }
+  .flower:hover { transform: scale(1.08); }
+  .bud {
+    width: 44px;
+    height: 44px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+  .bud::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 10px;
+    background: #8BAF7C;
+    border-radius: 2px;
+  }
+  .bud::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    width: 10px; height: 8px;
+    border-radius: 0 50% 50% 50%;
+    background: #8BAF7C;
+    transform: rotate(-30deg);
+    left: calc(50% + 2px);
+  }
+  .bud-1 { background: linear-gradient(135deg, #FFB3B3, #E88A8A); }
+  .bud-2 { background: linear-gradient(135deg, #FFD6A0, #E8B06A); }
+  .bud-3 { background: linear-gradient(135deg, #C8E6B0, #8BAF7C); }
+  .bud-4 { background: linear-gradient(135deg, #B5C8E8, #8AA4D0); }
+  .bud-5 { background: linear-gradient(135deg, #D4B8E8, #B5A0D1); }
+  .bud-emoji {
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .flower-label {
+    font-size: 10px;
+    color: var(--text);
+    opacity: 0.7;
+    font-weight: 600;
+  }
+
+  /* Talk to me button */
+  .talk-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 390px;
+    z-index: 60;
+    background: linear-gradient(135deg, var(--primary), #D4835A);
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(232, 148, 90, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .talk-btn:active {
+    transform: translateX(-50%) scale(0.96);
+    box-shadow: 0 2px 8px rgba(232, 148, 90, 0.3);
+  }
+
+  /* Flowers along bottom of hill */
+  .wildflower {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    z-index: 4;
+  }
+</style>
+</head>
+<body>
+
+<div class="landscape">
+  <div class="sky">
+    <div class="sun"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <div class="hills">
+    <div class="hill hill-far"></div>
+    <div class="hill hill-mid"></div>
+    <div class="hill hill-front"></div>
+
+    <!-- Grass tufts -->
+    <div class="grass" style="left:40px; bottom:130px;"></div>
+    <div class="grass" style="left:55px; bottom:125px;"></div>
+    <div class="grass" style="left:100px; bottom:110px;"></div>
+    <div class="grass" style="left:115px; bottom:112px;"></div>
+    <div class="grass" style="left:250px; bottom:105px;"></div>
+    <div class="grass" style="left:265px; bottom:108px;"></div>
+    <div class="grass" style="left:310px; bottom:115px;"></div>
+    <div class="grass" style="left:330px; bottom:118px;"></div>
+    <div class="grass" style="left:175px; bottom:95px;"></div>
+    <div class="grass" style="left:190px; bottom:98px;"></div>
+
+    <!-- Wildflowers -->
+    <div class="wildflower" style="left:80px; bottom:115px; background:#FFB3B3;"></div>
+    <div class="wildflower" style="left:220px; bottom:100px; background:#F2C94C;"></div>
+    <div class="wildflower" style="left:290px; bottom:112px; background:#B5A0D1;"></div>
+    <div class="wildflower" style="left:150px; bottom:102px; background:#FFD6A0;"></div>
+  </div>
+
+  <!-- Cottage -->
+  <div class="cottage">
+    <div class="chimney"></div>
+    <div class="cottage-roof"></div>
+    <div class="cottage-body">
+      <div class="cottage-window left"></div>
+      <div class="cottage-window right"></div>
+      <div class="cottage-door"></div>
+    </div>
+  </div>
+
+  <!-- Trees -->
+  <div class="tree tree-1">
+    <div class="tree-top"></div>
+    <div class="tree-trunk"></div>
+  </div>
+  <div class="tree tree-2">
+    <div class="tree-top"></div>
+    <div class="tree-trunk"></div>
+  </div>
+
+  <!-- Path -->
+  <div class="path"></div>
+
+  <!-- Companion bird -->
+  <div class="companion">🐦</div>
+
+  <!-- Signposts -->
+  <div class="signpost sign-garden">
+    <div class="sign-label">🌱 Garden<span class="sign-sub">Check-in</span></div>
+  </div>
+  <div class="signpost sign-observatory">
+    <div class="sign-label">🔭 Observatory<span class="sign-sub">Insights</span></div>
+  </div>
+  <div class="signpost sign-marketplace">
+    <div class="sign-label">🏪 Marketplace<span class="sign-sub">Stickers</span></div>
+  </div>
+  <div class="signpost sign-nook">
+    <div class="sign-label">📓 Nook<span class="sign-sub">Journal</span></div>
+  </div>
+</div>
+
+<!-- Check-in Card -->
+<div class="checkin-overlay">
+  <div class="checkin-card">
+    <div class="checkin-title">How are you showing up today?</div>
+    <div class="flowers">
+      <div class="flower">
+        <div class="bud bud-1"><span class="bud-emoji">😊</span></div>
+        <span class="flower-label">Happy</span>
+      </div>
+      <div class="flower">
+        <div class="bud bud-2"><span class="bud-emoji">😌</span></div>
+        <span class="flower-label">Calm</span>
+      </div>
+      <div class="flower">
+        <div class="bud bud-3"><span class="bud-emoji">😐</span></div>
+        <span class="flower-label">Neutral</span>
+      </div>
+      <div class="flower">
+        <div class="bud bud-4"><span class="bud-emoji">😔</span></div>
+        <span class="flower-label">Low</span>
+      </div>
+      <div class="flower">
+        <div class="bud bud-5"><span class="bud-emoji">😤</span></div>
+        <span class="flower-label">Wired</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="talk-btn">🎤 Talk to me</button>
+
+</body>
+</html>
